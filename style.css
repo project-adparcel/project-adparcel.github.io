@@ -1,0 +1,137 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* Yatay scroll'u engeller */
+  -webkit-overflow-scrolling: touch; /* Safari için smooth scrolling */
+  overscroll-behavior-y: contain; /* Modal açıkken arkada scroll olmasını engeller */
+  -webkit-overscroll-behavior-y: contain; /* Safari prefix */
+  -webkit-tap-highlight-color: transparent; /* Safari tap highlight */
+  -webkit-touch-callout: none; /* Safari long press menu */
+  -webkit-user-select: none; /* Safari text selection */
+  user-select: none;
+}
+
+/* Desktop: lock page scroll; use internal panel scrolls */
+@media (min-width: 1024px) {
+  html, body {
+    overflow: hidden;
+  }
+  main {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+/* Mobil için canvas'ı küçült */
+@media (max-width: 767px) {
+  #gridCanvas {
+    max-width: 90%;
+    max-height: 50vh;
+  }
+  
+  html, body {
+    overflow: auto;
+  }
+}
+#gridCanvas {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 120px); /* Header ve diğer elementler için alan bırakır */
+  aspect-ratio: 1/1; /* Kare oranını korur */
+  width: auto;
+  height: auto;
+  touch-action: pan-x pan-y; /* Dikey ve yatay scroll'a izin verir ama zoom'u engeller */
+
+}
+
+
+
+/* Removed #magnifier and #magnifierCanvas styles */
+
+
+canvas {
+  border: 2px solid #333;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  cursor: crosshair;
+  display: block;
+  margin: auto;
+  -webkit-transform: translateZ(0); /* Safari hardware acceleration */
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden; /* Safari rendering fix */
+  backface-visibility: hidden;
+}
+
+/* Hide intrusive console logs when inspecting (no visual impact, but reduce noise) */
+/* Intentionally left minimal; logs trimmed in JS */
+
+  /* Disabled button cursor */
+  button:disabled {
+    cursor: not-allowed;
+  }
+  
+  /* Prevent background scroll when modal open */
+  body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* News Ticker container */
+  #newsTicker {
+    background-color: #A8FFDA;
+    color: #1E3A8A;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0.25rem 1rem;
+  }
+  
+  /* Ticker text & animation */
+  #tickerContent {
+    display: inline-block;
+    will-change: transform; /* Animasyon performansını artırır */
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-left: 100%;
+    animation: tickerScroll 45s linear infinite;
+  }
+
+  /* Modal içeriği için scroll */
+.purchaseModal > div {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+  
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% - 20px)); /* Son içeriğin tamamen kaybolmasını sağlar */
+  }
+
+  }
+
+/* Heartbeat animation for callouts/CTAs */
+@keyframes eb-heartbeat { 
+  0% { transform: scale(1); } 
+  10% { transform: scale(1.12); } 
+  20% { transform: scale(0.98); } 
+  30% { transform: scale(1.15); } 
+  40% { transform: scale(1.02); } 
+  100% { transform: scale(1); } 
+}
+.heartbeat-cta {
+  animation: eb-heartbeat 900ms ease-in-out infinite;
+}
+
+/* Shine animation for button */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shine {
+  animation: shine 2s ease-in-out infinite;
+}
