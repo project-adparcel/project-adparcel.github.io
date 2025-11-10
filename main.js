@@ -27,7 +27,7 @@ const logoSources = {
 const canvas      = document.getElementById('gridCanvas');
 const ctx         = canvas.getContext('2d');
 const gridSize    = 1000;
-const cellSize    = 13; // Eski haline döndürdük
+let cellSize    = 13; // Eski haline döndürdük
 const soldParcels = new Set();
 
 // Zoom variables
@@ -35,9 +35,19 @@ let zoomLevel = 1;
 const minZoom = 0.1;
 const maxZoom = 5.0;
 
-// after: const canvas = document.getElementById('gridCanvas');
-canvas.width  = gridSize * cellSize;   // 1000 * 13 = 13000px
-canvas.height = gridSize * cellSize;
+// Ensure canvas dimensions stay within mobile Safari limits
+// Many mobile browsers (especially iOS Safari) fail to render canvases with very large backing dimensions.
+// We cap the backing store to a safe maximum and reduce cellSize proportionally if needed.
+(() => {
+  const MAX_CANVAS_DIMENSION = 4096; // conservative safe cap for iOS Safari
+  const desiredDimension = gridSize * cellSize; // 1000 * 13 = 13000px
+  if (desiredDimension > MAX_CANVAS_DIMENSION) {
+    const adjusted = Math.max(1, Math.floor(MAX_CANVAS_DIMENSION / gridSize));
+    cellSize = adjusted;
+  }
+  canvas.width  = gridSize * cellSize;
+  canvas.height = gridSize * cellSize;
+})();
 
 // --- Advertisement data setup ---
 // Mark Nike advertisement parcels as "sold" area (375×125 block)
