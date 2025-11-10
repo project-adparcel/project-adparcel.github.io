@@ -49,6 +49,38 @@ const maxZoom = 5.0;
   canvas.height = gridSize * cellSize;
 })();
 
+// --- Fast zone pattern rendering ---
+const zonePatternCache = {};
+function createZonePattern(primaryHex, secondaryHex) {
+  const tile = document.createElement('canvas');
+  // Small tile with 2x2 cells checkerboard
+  tile.width = cellSize * 2;
+  tile.height = cellSize * 2;
+  const tctx = tile.getContext('2d');
+  // background
+  tctx.fillStyle = primaryHex + 'cc';
+  tctx.fillRect(0, 0, tile.width, tile.height);
+  // alternate squares
+  tctx.fillStyle = secondaryHex + 'cc';
+  tctx.fillRect(0, 0, cellSize, cellSize);
+  tctx.fillRect(cellSize, cellSize, cellSize, cellSize);
+  return tctx.createPattern(tile, 'repeat');
+}
+
+function getZonePattern(zone) {
+  if (zonePatternCache[zone]) return zonePatternCache[zone];
+  const colors = {
+    green: ['#22c55e', '#16a34a'],
+    pink: ['#ec4899', '#db2777'],
+    yellow: ['#fde047', '#facc15'],
+    orange: ['#fb923c', '#f97316']
+  };
+  const [c1, c2] = colors[zone];
+  const pat = createZonePattern(c1, c2);
+  zonePatternCache[zone] = pat;
+  return pat;
+}
+
 // --- Advertisement data setup ---
 // Mark Nike advertisement parcels as "sold" area (375×125 block)
 for (let y = 625; y <= 749; y++) {
@@ -493,6 +525,52 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// --- Idle scheduler & first-interaction bootstrap ---
+const scheduleIdle = (cb, timeout = 300) => {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(cb, { timeout });
+  } else {
+    setTimeout(cb, Math.min(timeout, 200));
+  }
+};
+let bootstrapped = false;
+function bootstrapNonCritical() {
+  if (bootstrapped) return;
+  bootstrapped = true;
+  // Kick off chat and logo preloads without blocking first paint
+  scheduleIdle(() => {
+    try { startChatParcelSimulation(); } catch(e) {}
+  }, 500);
+  scheduleIdle(() => {
+    try { preloadLogos(); } catch(e) {}
+  }, 800);
+  // Force-load hidden ad images on Safari (lazy may not start for display:none)
+  scheduleIdle(() => {
+    try { preloadAdImages(); } catch(e) {}
+  }, 600);
+  // Gentle redraws after idle to incorporate any loaded assets
+  scheduleIdle(() => { try { drawGrid(); } catch(e) {} }, 1200);
+  scheduleIdle(() => { try { drawGrid(); } catch(e) {} }, 2000);
+}
+['touchstart','pointerdown','scroll','keydown','click'].forEach(evt => {
+  window.addEventListener(evt, bootstrapNonCritical, { once: true, passive: true });
+});
+// Also attempt idle bootstrap after DOM is ready
+document.addEventListener('DOMContentLoaded', () => scheduleIdle(bootstrapNonCritical, 1000));
+
+function preloadAdImages() {
+  const ids = ['nikeAd','temaAd','ad1','ad2','ad3','ad4','ad5','ad6','ad7'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el || (el.complete && el.naturalWidth > 0)) return;
+    const src = el.getAttribute('src');
+    if (!src) return;
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = () => { try { drawGrid(); } catch(e) {} };
+    img.src = src;
+  });
+}
 // --- Single Pixel Selection ---
 function selectSinglePixel() {
   alert('🎉 LIMITED OFFER: Only 1000-parcel packages (100×10) are available in green zone for $5.00! This is a special launch offer. Thank you for your understanding.');
@@ -782,9 +860,7 @@ function stopChatParcelSimulation() {
 }
 
 // Start chat simulation when page loads
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(startChatParcelSimulation, 2000);
-});
+// Deferred to idle/first interaction via bootstrapNonCritical
 
 // Expose Early Bird functions globally for inline onclick handlers
 window.buyEarlyBird = buyEarlyBird;
@@ -1363,34 +1439,55 @@ function drawAd(region, imgId) {
 
 
 
-// ③ drawGrid içinde, drawNikeAd()'dan hemen sonra ekle
 function drawGrid() {
-    // 1) Hücreleri çiz
-    for (let y=0; y<gridSize; y++) {
-      for (let x=0; x<gridSize; x++) {
-        const idx = y*gridSize + x;
-        ctx.fillStyle = soldParcels.has(idx) ? '#000' : getFillColor(x,y);
-        ctx.fillRect(x*cellSize, y*cellSize, cellSize, cellSize);
-      }
-    }
-    // 2) Reklamları üst üste çiz
-    drawNikeAd();
-    drawTemaAd();
-    
-    const adRegions = [
-      [ad1Region, 'ad1'],
-      [ad2Region, 'ad2'],
-      [ad3Region, 'ad3'],
-      [ad4Region, 'ad4'],
-      [ad5Region, 'ad5'],
-      [ad6Region, 'ad6'],
-      [ad7Region, 'ad7']
-    ];
-    
-    adRegions.forEach(([region, id]) => drawAd(region, id));
-    
-    // 3) (Auxiliary ads disabled for production)
-  }
+  // Clear
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // 1) Fill big zones with lightweight patterns
+  // Green zone: y>=500
+  ctx.fillStyle = getZonePattern('green');
+  ctx.fillRect(0, 500 * cellSize, canvas.width, (gridSize - 500) * cellSize);
+  
+  // Pink zone: x<500, y<500
+  ctx.fillStyle = getZonePattern('pink');
+  ctx.fillRect(0, 0, 500 * cellSize, 500 * cellSize);
+  
+  // Yellow zone: 500<=x<750, y<500
+  ctx.fillStyle = getZonePattern('yellow');
+  ctx.fillRect(500 * cellSize, 0, (750 - 500) * cellSize, 500 * cellSize);
+  
+  // Orange zone: x>=750, y<250
+  ctx.fillStyle = getZonePattern('orange');
+  ctx.fillRect(750 * cellSize, 0, (gridSize - 750) * cellSize, 250 * cellSize);
+  
+  // 2) Draw reserved/ads as overlays (optional dark base for contrast)
+  // Nike block base
+  ctx.fillStyle = '#000';
+  ctx.fillRect(625 * cellSize, 625 * cellSize, (999 - 625 + 1) * cellSize, (749 - 625 + 1) * cellSize);
+  // TEMA strip base
+  ctx.fillRect(temaRegion.x1 * cellSize, temaRegion.y1 * cellSize, (temaRegion.x2 - temaRegion.x1 + 1) * cellSize, (temaRegion.y2 - temaRegion.y1 + 1) * cellSize);
+  // Other ad regions base
+  [ad1Region, ad2Region, ad3Region, ad4Region, ad5Region, ad6Region, ad7Region].forEach(r => {
+    ctx.fillRect(r.x1 * cellSize, r.y1 * cellSize, (r.x2 - r.x1 + 1) * cellSize, (r.y2 - r.y1 + 1) * cellSize);
+  });
+  
+  // 3) Draw advertisements (images)
+  // Defer image draws to idle slices to keep first paint fast
+  scheduleIdle(() => { try { drawNikeAd(); } catch(e) {} }, 100);
+  scheduleIdle(() => { try { drawTemaAd(); } catch(e) {} }, 150);
+  const adRegions = [
+    [ad1Region, 'ad1'],
+    [ad2Region, 'ad2'],
+    [ad3Region, 'ad3'],
+    [ad4Region, 'ad4'],
+    [ad5Region, 'ad5'],
+    [ad6Region, 'ad6'],
+    [ad7Region, 'ad7']
+  ];
+  adRegions.forEach(([region, id], idx) => {
+    scheduleIdle(() => { try { drawAd(region, id); } catch(e) {} }, 200 + idx*80);
+  });
+}
 
 
 
@@ -2430,43 +2527,40 @@ function startNetworkingAnimation() {
 function preloadLogos() {
   
   Object.entries(logoSources).forEach(([key, src]) => {
-    
-    const img = new Image();
-    img.onload = () => {
-      
-      logoImages[key] = img;
-      // Her logo yüklendiğinde grid'i yeniden çiz
-      drawGrid();
+    const tryLoad = (primary, fallback) => {
+      const img = new Image();
+      img.onload = () => {
+        logoImages[key] = img;
+        drawGrid();
+      };
+      img.onerror = () => {
+        if (fallback && fallback !== primary) {
+          const img2 = new Image();
+          img2.onload = () => {
+            logoImages[key] = img2;
+            drawGrid();
+          };
+          img2.onerror = () => { logoImages[key] = null; };
+          img2.src = fallback;
+        } else {
+          logoImages[key] = null;
+        }
+      };
+      img.decoding = 'async';
+      img.src = primary;
     };
-    img.onerror = () => {
-      
-      logoImages[key] = null;
-    };
-    img.src = src;
+    // Prefer .webp if available; fallback to original
+    const webpCandidate = src.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+    if (webpCandidate !== src) {
+      tryLoad(webpCandidate, src);
+    } else {
+      tryLoad(src, null);
+    }
   });
 }
 
 // Kick off preloading after DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  
-  preloadLogos();
-  
-  // Also try to redraw after delays to ensure images are loaded
-  setTimeout(() => {
-    
-    drawGrid();
-  }, 1000);
-  
-  setTimeout(() => {
-    
-    drawGrid();
-  }, 3000);
-  
-  setTimeout(() => {
-    
-    drawGrid();
-  }, 5000);
-});
+// Deferred to idle/first interaction via bootstrapNonCritical
 
 function drawLogoOrText(centerX, centerY, adKeyText, adInfo = null) {
   const img = logoImages[adKeyText];
