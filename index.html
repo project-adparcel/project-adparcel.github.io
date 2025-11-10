@@ -44,9 +44,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
   
-  <!-- Preload critical images -->
-  <link rel="preload" href="assets/nike.png" as="image">
-  <link rel="preload" href="assets/tema.png" as="image">
+  <!-- Removed image preloads to avoid blocking bandwidth; images load lazily -->
 </head>
 <body class="bg-black text-white font-sans">
   <main class="flex flex-col lg:flex-row gap-6 p-6">
@@ -222,21 +220,21 @@
           <!-- magnifierCanvas removed -->
 
           <!-- existing -->
-<img id="nikeAd" src="assets/nike.png" style="display:none" loading="eager" decoding="sync" fetchpriority="high" />
-<img id="temaAd" src="assets/tema.png" style="display:none" loading="eager" decoding="sync" fetchpriority="high" />
+<img id="nikeAd" src="assets/nike.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
+<img id="temaAd" src="assets/tema.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
 
 <!-- two ads above Nike -->
-<img id="ad1" src="assets/ad1.png" style="display:none" loading="eager" decoding="async" />
-<img id="ad2" src="assets/ad2.png" style="display:none" loading="eager" decoding="async" />
+<img id="ad1" src="assets/ad1.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
+<img id="ad2" src="assets/ad2.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
 
 <!-- four ads below Nike -->
-<img id="ad3" src="assets/ad3.png" style="display:none" loading="eager" decoding="async" />
-<img id="ad4" src="assets/ad4.png" style="display:none" loading="eager" decoding="async" />
-<img id="ad5" src="assets/ad5.png" style="display:none" loading="eager" decoding="async" />
-<img id="ad6" src="assets/ad6.png" style="display:none" loading="eager" decoding="async" />
+<img id="ad3" src="assets/ad3.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
+<img id="ad4" src="assets/ad4.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
+<img id="ad5" src="assets/ad5.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
+<img id="ad6" src="assets/ad6.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
 
 <!-- one 250×500 block in green zone -->
-<img id="ad7" src="assets/ad7.png" style="display:none" loading="eager" decoding="async" />
+<img id="ad7" src="assets/ad7.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
         </div>
 
         
