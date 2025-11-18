@@ -1,4 +1,4 @@
-// main.js for AdParcel (FINAL - FINAL)
+// main.js for AdParcel (MOBILE GRID FIX)
 
 // --- 1. Global Değişkenler ---
 const canvas = document.getElementById('gridCanvas');
@@ -50,30 +50,69 @@ advertisementsMeta.forEach(ad => {
     canvas.height = gridSize * cellSize;
 })();
 
-const scheduleIdle = (cb, timeout = 300) => {
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(cb, { timeout });
-    } else {
-        setTimeout(cb, Math.min(timeout, 200));
-    }
-};
-
-let bootstrapped = false;
-function bootstrapNonCritical() {
-    if (bootstrapped) return;
-    bootstrapped = true;
-    
-    scheduleIdle(() => { try { startChatParcelSimulation(); } catch (e) {} }, 500);
-    scheduleIdle(() => { try { preloadAdImages(); } catch (e) {} }, 600);
-    scheduleIdle(() => { try { drawGrid(); } catch (e) {} }, 1200);
+// Bu 'debounce' (geciktirme) fonksiyonu, çok fazla çizim emri gelirse sistemi yormaması için
+let drawTimeout;
+function requestDrawGrid() {
+    if (drawTimeout) cancelAnimationFrame(drawTimeout);
+    drawTimeout = requestAnimationFrame(drawGrid);
 }
 
-['touchstart', 'pointerdown', 'scroll', 'keydown', 'click'].forEach(evt => {
-    window.addEventListener(evt, bootstrapNonCritical, { once: true, passive: true });
-});
+// --- 4. Çizim (DÜZELTİLDİ: SENKRONİZE) ---
+function preloadAdImages() {
+    const ids = ['nikeAd', 'temaAd', 'ad1', 'ad2', 'ad3', 'ad4', 'ad5', 'ad6', 'ad7'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.complete && el.naturalWidth > 0) {
+            // Zaten yüklüyse çiz
+            requestDrawGrid();
+        } else {
+            // Yüklenince çiz
+            el.onload = () => requestDrawGrid();
+            // Mobilde bazen lazy load tetiklenmez, src'yi resetlemek zorlar
+            if(!el.src) {
+               const dataSrc = el.getAttribute('src');
+               el.src = dataSrc;
+            }
+        }
+    });
+}
 
+function drawGrid() {
+    // 1. Temizle
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // 2. HEPSİNİ AYNI ANDA ÇİZ (Bekleme yok)
+    drawAdImage('nikeAd', nikeRegion);
+    drawAdImage('temaAd', temaRegion);
+    
+    const adIds = ['ad1', 'ad2', 'ad3', 'ad4', 'ad5', 'ad6', 'ad7'];
+    const regions = [ad1Region, ad2Region, ad3Region, ad4Region, ad5Region, ad6Region, ad7Region];
+    
+    for(let i=0; i<adIds.length; i++) {
+        drawAdImage(adIds[i], regions[i]);
+    }
+}
+
+function drawAdImage(imgId, region) {
+    const img = document.getElementById(imgId);
+    if (!img || !img.complete || img.naturalWidth === 0) {
+        return; // Yüklenmemişse pas geç
+    }
+    const { x1, y1, x2, y2 } = region;
+    ctx.drawImage(img, x1 * cellSize, y1 * cellSize, (x2 - x1 + 1) * cellSize, (y2 - y1 + 1) * cellSize);
+}
+
+
+// --- 5. Başlatıcılar ---
 document.addEventListener('DOMContentLoaded', () => {
-    scheduleIdle(bootstrapNonCritical, 1000);
+    preloadAdImages();
+    requestDrawGrid(); // İlk çizim
+    
+    // Ekstra garanti: 1 saniye sonra tekrar çiz (mobil lag için)
+    setTimeout(requestDrawGrid, 1000);
+    setTimeout(requestDrawGrid, 3000);
+
     updateSidebarStats(); 
     updateTicker(); 
 
@@ -107,53 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
             slides[index].classList.add('active');
             setTimeout(() => playLogoSlides(index + 1), 2500);
         } else {
-            // Bitti
              document.getElementById('logo-animation-backdrop').classList.add('hidden');
         }
     }
+    
+    // Chat Simülasyonu Başlat
+    startChatParcelSimulation();
 });
 
-// --- 4. Çizim ---
-function preloadAdImages() {
-    const ids = ['nikeAd', 'temaAd', 'ad1', 'ad2', 'ad3', 'ad4', 'ad5', 'ad6', 'ad7'];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el || (el.complete && el.naturalWidth > 0)) return;
-        const src = el.getAttribute('src');
-        if (!src) return;
-        const img = new Image();
-        img.decoding = 'async';
-        img.onload = () => { try { drawGrid(); } catch (e) {} };
-        img.src = src;
-    });
-}
 
-function drawGrid() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    scheduleIdle(() => { try { drawAdImage('nikeAd', nikeRegion); } catch (e) {} }, 100);
-    scheduleIdle(() => { try { drawAdImage('temaAd', temaRegion); } catch (e) {} }, 150);
-
-    const adRegions = [
-        ['ad1', ad1Region], ['ad2', ad2Region], ['ad3', ad3Region],
-        ['ad4', ad4Region], ['ad5', ad5Region], ['ad6', ad6Region],
-        ['ad7', ad7Region]
-    ];
-    adRegions.forEach(([id, region], idx) => {
-        scheduleIdle(() => { try { drawAdImage(id, region); } catch (e) {} }, 200 + idx * 80);
-    });
-}
-
-function drawAdImage(imgId, region) {
-    const img = document.getElementById(imgId);
-    if (!img || !img.complete || img.naturalWidth === 0) {
-        if (img) { img.onload = () => drawGrid(); }
-        return;
-    }
-    const { x1, y1, x2, y2 } = region;
-    ctx.drawImage(img, x1 * cellSize, y1 * cellSize, (x2 - x1 + 1) * cellSize, (y2 - y1 + 1) * cellSize);
-}
-
-// --- 5. Zon ve Tıklama Mantığı ---
+// --- 6. Zon ve Tıklama Mantığı ---
 function getZone(x, y) {
     if (y >= 500) return 'green';
     if (x < 500) return 'pink';
@@ -246,7 +248,7 @@ function handleGridClick(e) {
 }
 
 
-// --- 6. Modallar ---
+// --- 7. Modallar ---
 function toggleDetails() {
     document.getElementById('detailsSection').classList.toggle('hidden');
 }
@@ -340,7 +342,7 @@ function closePremiumModal() {
 window.closePremiumModal = closePremiumModal;
 
 
-// --- 7. Simülasyonlar ---
+// --- 8. Simülasyonlar ---
 
 function startChatParcelSimulation() {
   const chatMessages = document.getElementById('chatMessages');
@@ -370,7 +372,7 @@ function startChatParcelSimulation() {
     "This chat is moving too fast lol", 
     "AdParcel is the new Bitcoin.", 
     "Waiting for the next batch release...",
-    "Anyone else verified their parcel yet?",
+    "Anyone else verified their pixel yet?",
     "Support responded in 2 mins, nice.",
     "Designing my banner now, needs to pop."
   ];
@@ -473,6 +475,7 @@ function spawnEmojiBurst(count = 50) {
   }
 }
 
+// Bidding Simulation
 function startBiddingAnimation() {
   const counter = document.getElementById('biddingCounter');
   const nextBid = document.getElementById('nextBid');
@@ -589,7 +592,7 @@ function updateSidebarStats() {
 }
 
 const headlines = [
-    '<span class="font-bold text-lg animate-text-shimmer">DON\'T MISS SURPRISE GIFTS! (MacBook, AirPods, Scooters hidden under parcels!)</span>',
+    '<span class="font-bold text-lg animate-text-shimmer">🎁 DON\'T MISS SURPRISE GIFTS! (MacBook, AirPods, Scooters hidden under pixels!) 🎁</span>',
     '🟢 Green zone prices rising – FOMO kicking in!', '🌳 Over 2,000 trees planted this week – thank you!', '💗 Bidding war in pink zone: $75 and counting!',
     '🚀 Parcel #274,346 just sold. Quarter milestone crushed!', '🎨 New ad banner in orange zone just dropped!', '💬 Chat-Parcel feature launching soon!',
     '📈 AdParcel trending on TechCrunch!', '🔥 Only 10 premium parcels left in row 998!', '🏆 Top bidder of the day: user "PixMaster99"',
