@@ -3,380 +3,393 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="apple-touch-fullscreen" content="yes">
   
-  <!-- SEO Meta Tags -->
   <title>AdParcel - Buy Digital Advertising Parcels | Own Your Ad Space Forever</title>
-  <meta name="description" content="Buy advertising parcels on AdParcel grid. Own your digital ad space forever from just $1.00 per parcel. Perfect for brand awareness, product launches, and traffic generation.">
-  <meta name="keywords" content="advertising parcels, digital advertising, ad space, buy ad space, online advertising, marketing, brand awareness, ad grid, permanent ads">
-  <meta name="author" content="AdParcel">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="English">
-  <link rel="canonical" href="https://adparcel.io/">
-  <meta name="theme-color" content="#000000">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://adparcel.io/">
-  <meta property="og:title" content="AdParcel - Buy Digital Advertising Parcels | Own Your Ad Space Forever">
-  <meta property="og:description" content="Buy advertising parcels on AdParcel grid. Own your digital ad space forever from just $1.00 per parcel.">
-  <meta property="og:image" content="assets/og-image.jpg">
-  <meta property="og:site_name" content="AdParcel">
-  <meta property="og:locale" content="en_US">
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://adparcel.io/">
-  <meta property="twitter:title" content="AdParcel - Buy Digital Advertising Parcels">
-  <meta property="twitter:description" content="Own your digital ad space forever from just $1.00 per parcel.">
-  <meta property="twitter:image" content="assets/og-image.jpg">
-  <meta name="twitter:site" content="@adparcel">
-  <meta name="twitter:creator" content="@adparcel">
-  
-  <!-- Performance -->
-  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
-  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <meta name="description" content="Buy advertising parcels on AdParcel grid. Own your digital ad space forever. Resell, auction, or rent your parcels.">
   <link rel="icon" href="assets/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon.ico">
-  <link rel="manifest" href="/manifest.json">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
   
-  <!-- Removed image preloads to avoid blocking bandwidth; images load lazily -->
+  <style>
+    /* Ekran Sallama (Early Bird) */
+    @keyframes aggressive-shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    .shake-screen {
+        animation: aggressive-shake 0.5s;
+        animation-iteration-count: 1;
+    }
+
+    /* Hediye Banner Yazı Efekti */
+    @keyframes text-shimmer {
+        0% { background-position: -200% center; }
+        100% { background-position: 200% center; }
+    }
+    .animate-text-shimmer {
+        background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: text-shimmer 3s linear infinite;
+    }
+  </style>
 </head>
 <body class="bg-black text-white font-sans">
+
+  <div id="cursorTooltip" class="fixed pointer-events-none z-[9999] hidden bg-black/90 border border-green-500/50 text-white p-2 rounded-lg shadow-2xl backdrop-blur-md text-xs min-w-[120px]">
+      </div>
+
+  <div id="logo-animation-backdrop" class="fixed inset-0 bg-black z-[9998] hidden flex items-center justify-center bg-opacity-95 backdrop-blur-sm">
+    <div class="logo-slide text-center hidden" id="ls1">
+        <h2 class="text-4xl md:text-6xl font-bold text-green-400 mb-4">Buy Once & Own Forever</h2>
+        <p class="text-xl text-gray-300">Your space, your rules. No monthly fees.</p>
+    </div>
+    <div class="logo-slide text-center hidden" id="ls2">
+        <h2 class="text-4xl md:text-6xl font-bold text-pink-500 mb-4">Resell or Auction Later</h2>
+        <p class="text-xl text-gray-300">Digital real estate that appreciates in value.</p>
+    </div>
+    <div class="logo-slide text-center hidden" id="ls3">
+        <h2 class="text-4xl md:text-6xl font-bold text-blue-400 mb-4">Partner Network Exposure</h2>
+        <p class="text-xl text-gray-300">Your ad displayed on partner apps & websites.</p>
+    </div>
+    <div class="logo-slide text-center hidden" id="ls4">
+        <h2 class="text-4xl md:text-6xl font-bold text-yellow-400 mb-4">Monetize With Us</h2>
+        <p class="text-xl text-gray-300">Embed AdParcel via iframe & earn revenue.</p>
+    </div>
+    <div class="logo-slide text-center hidden" id="ls5">
+        <h2 class="text-5xl md:text-7xl font-black text-green-500 mb-2">Ad<span class="text-white">Parcel</span></h2>
+        <p class="text-2xl md:text-3xl font-bold text-green-400 mt-4 tracking-widest uppercase"><span class="text-white">Pay Once</span> 
+          <span class="text-green-400">Advertise Forever</span></p>
+    </div>
+  </div>
+
   <main class="flex flex-col lg:flex-row gap-6 p-6">
-    <!-- Purchase Modal -->
-    <div id="purchaseModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
-      <div class="bg-white text-black rounded-lg p-6 w-full max-w-md space-y-4 relative overflow-y-auto max-h-screen sm:max-h-[90vh]">                <button onclick="closeModal()" class="absolute top-2 right-3 text-xl font-bold text-red-600">×</button>
-        <h2 class="text-lg font-bold text-center text-green-700">Purchase Parcels</h2>
-        <p id="selectedInfo" class="text-sm text-gray-700"></p>
-        <div class="bg-green-100 text-green-900 text-sm p-3 rounded space-y-2 text-center">
-          <p class="font-semibold">💸 Complete payment via <strong>Wise</strong></p>
-          <img src="assets/wise.jpeg" alt="Wise QR Code" class="w-32 mx-auto rounded border border-green-500" />
-          <p>Please scan the QR code or send to <br> <strong>adparcel@ct-ss.com</strong><br>Then upload your receipt below.</p>
+    
+    <div id="purchaseModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50 backdrop-blur-md">
+      <div class="bg-[#0a0a0a] text-white rounded-xl p-6 w-full max-w-md space-y-4 relative overflow-y-auto max-h-screen sm:max-h-[90vh] border border-green-500/30 shadow-2xl shadow-green-900/20">
+        
+        <button onclick="closeModal()" class="absolute top-3 right-4 text-2xl font-bold text-gray-500 hover:text-white transition">×</button>
+        
+        <div id="successMessage" class="hidden flex flex-col items-center justify-center text-center h-full py-10 space-y-4">
+            <div class="text-6xl animate-bounce">✅</div>
+            <h3 class="text-2xl font-bold text-green-400">Mission Accomplished!</h3>
+            <p class="text-gray-300 text-sm">
+                We have received your signal. Your parcel will be live within <strong class="text-white">48 hours</strong>.
+            </p>
+            <div class="bg-[#111] border border-gray-700 p-3 rounded text-xs text-gray-400 mt-4 w-full">
+                <p>Questions?</p>
+                <a href="mailto:info@ct-ss.com" class="text-green-400 font-bold hover:underline">info@ct-ss.com</a>
+            </div>
+            
+            <button onclick="closeModal()" class="mt-4 w-full bg-black border border-green-500 text-green-400 px-6 py-3 rounded font-bold hover:bg-green-900/20 transition uppercase tracking-widest">
+                CLOSE TERMINAL
+            </button>
         </div>
-       <form id="purchaseForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
-  <!-- ✅ Web3Forms Access Key -->
-  <input type="hidden" name="access_key" value="17ca881d-9c0f-47ba-8f4f-a50a4a7dd61e" />
 
-  <!-- 🔐 Eski gizli alanlar yorum satırına alındı -->
-  <!--
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_template" value="box">
-  <input type="hidden" name="_subject" value="New AdParcel Submission">
-  <input type="hidden" name="_next" value="https://adparcel.io/thanks.html">
-  -->
+        <div id="purchaseContent">
+            <h2 class="text-xl font-black text-center text-green-500 uppercase tracking-widest mb-1">SECURE PARCEL</h2>
+            <div class="h-1 w-20 bg-green-500/50 mx-auto mb-4 rounded"></div>
+            
+            <p id="selectedInfo" class="text-xs text-gray-400 font-mono text-center mb-4"></p>
+            
+            <div class="bg-green-900/10 text-green-300 text-xs p-4 rounded border border-green-500/20 space-y-3 mb-5">
+              <p class="font-bold border-b border-green-500/30 pb-2 text-green-400">🟢 INITIALIZATION SEQUENCE:</p>
+              <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                <li>Click the button below to pay <strong>$1.00</strong> via İkas.</li>
+                <li>Copy your <strong>Order Number</strong>.</li>
+                <li>Upload Ad Image to cloud & get link.</li>
+                <li>Input Order No & Image Link below.</li>
+              </ol>
+              
+              <div class="text-center mt-3">
+                 <a href="https://testingin1day.ikas.shop/adparcel-buy-parcel" target="_blank" 
+                 class="inline-block w-full bg-green-600 text-black px-4 py-3 rounded font-bold hover:bg-green-500 transition transform hover:scale-[1.02] shadow-[0_0_15px_rgba(34,197,94,0.4)]">
+                 ➡️ EXECUTE PAYMENT ($1.00)
+                </a>
+              </div>
+            </div>
 
-  <!-- ✅ Parcel Koordinatları -->
-  <input type="hidden" name="Parcel Coordinates" id="parcelCoords" />
-
-  <!-- 🧍 Kullanıcı bilgileri -->
-  <input type="text" name="Full Name" placeholder="Full Name" class="w-full border px-3 py-2 rounded" required />
-  <input type="email" name="Email" placeholder="Email" class="w-full border px-3 py-2 rounded" required />
-  <input type="url" name="Website" placeholder="Website to advertise" class="w-full border px-3 py-2 rounded" required />
-
-  <!-- 🖼️ Dosya yükleme geçici olarak devre dışı -->
-  <!--
-  <label class="block text-sm font-medium text-gray-700">Ad Image</label>
-  <input type="file" name="Ad Image" class="w-full border px-2 py-1 rounded bg-white text-black" accept="image/*" required />
-
-  <label class="block text-sm font-medium text-gray-700">Payment Receipt</label>
-  <input type="file" name="Payment Receipt" class="w-full border px-2 py-1 rounded bg-white text-black" accept="image/*,.pdf" required />
-  -->
-
-  <!-- ✏️ Mesaj -->
-  <textarea name="Message" placeholder="Your message (optional)" class="w-full border px-3 py-2 rounded"></textarea>
-
-  <!-- ✅ Gönder butonu -->
-  <button type="submit" class="w-full bg-green-500 text-black py-2 rounded font-bold hover:bg-green-400">Submit</button>
-</form>
+           <form id="purchaseForm" method="POST" class="space-y-4">
+              <input type="hidden" name="access_key" value="17ca881d-9c0f-47ba-8f4f-a50a4a7dd61e" />
+              <input type="hidden" name="Parcel Coordinates" id="parcelCoords" />
+              
+              <div class="space-y-1">
+                  <label class="text-[11px] font-bold text-green-400 uppercase tracking-wider">Identity</label>
+                  <input type="text" name="Full Name" placeholder="Full Name / Company" class="w-full bg-[#151515] border border-gray-600 text-white px-3 py-3 rounded focus:border-green-400 focus:ring-1 focus:ring-green-400 outline-none placeholder-gray-500 transition" required />
+              </div>
+              <div class="space-y-1">
+                  <label class="text-[11px] font-bold text-green-400 uppercase tracking-wider">Communication</label>
+                  <input type="email" name="Email" placeholder="Email Address" class="w-full bg-[#151515] border border-gray-600 text-white px-3 py-3 rounded focus:border-green-400 focus:ring-1 focus:ring-green-400 outline-none placeholder-gray-500 transition" required />
+              </div>
+              <div class="space-y-1">
+                  <label class="text-[11px] font-bold text-green-400 uppercase tracking-wider">Target</label>
+                  <input type="url" name="Website" placeholder="https://your-website.com" class="w-full bg-[#151515] border border-gray-600 text-white px-3 py-3 rounded focus:border-green-400 focus:ring-1 focus:ring-green-400 outline-none placeholder-gray-500 transition" required />
+              </div>
+              
+              <div class="space-y-1">
+                  <label class="text-[11px] font-bold text-green-400 uppercase tracking-wider">Payload (Order No & Image)</label>
+                  <textarea name="Message" placeholder="1. Order Number: #12345&#10;2. Image Link: https://..." class="w-full bg-[#151515] border border-gray-600 text-white px-3 py-3 rounded h-24 focus:border-green-400 focus:ring-1 focus:ring-green-400 outline-none placeholder-gray-500 transition resize-none" required></textarea>
+              </div>
+              
+              <button type="submit" id="submitBtn" class="w-full bg-green-500 text-black py-4 rounded font-black hover:bg-green-400 transition uppercase tracking-widest mt-2 shadow-[0_0_20px_rgba(34,197,94,0.5)] animate-pulse">
+                  ACTIVATE PARCEL
+              </button>
+            </form>
+        </div>
       </div>
     </div>
 
-    <!-- Left Sidebar -->
-    <aside class="w-full lg:w-1/4 space-y-4 overflow-y-auto max-h-screen">
+    <aside class="w-full lg:w-1/4 space-y-4 lg:overflow-y-auto lg:max-h-screen overflow-x-hidden">
       <div class="flex flex-col space-y-2">
-        <h1 class="text-5xl font-bold text-green-400">
+        <h1 id="mainLogo" class="text-5xl font-bold text-green-400 cursor-pointer hover:scale-105 transition-transform duration-300" title="Click for info">
           Ad<span class="text-white">Parcel</span>
-        </h1>        <button id="buyButton" class="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black px-8 py-4 rounded-xl font-extrabold text-lg hover:from-yellow-300 hover:via-orange-400 hover:to-red-400 animate-bounce shadow-2xl border-4 border-yellow-300 transform transition-all duration-300 hover:scale-105 hover:shadow-yellow-500/50 relative overflow-hidden mt-2">
-          <span class="relative z-10">🔥 BUY PARCELS NOW! 🔥</span>
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shine"></div>
-        </button>
+        </h1>
         
+        <button id="buyButton" class="hidden"></button>
         
-        <!-- Early Bird Campaign -->
         <div class="mt-4">
-          <div class="bg-gradient-to-r from-red-600 to-orange-600 rounded-lg p-3 space-y-2 heartbeat-cta">
-            <h4 class="text-white font-semibold text-sm">🔥 EARLY BIRD CAMPAIGN</h4>
-            <div class="text-xs text-white mb-2">
-              500 parcels for $5.00! (99% OFF)
+          <div class="bg-gradient-to-r from-red-600 to-orange-600 rounded-lg p-3 space-y-2 heartbeat-cta cursor-pointer shadow-lg shadow-orange-500/20" onclick="buyEarlyBird()">
+            <h4 class="text-white font-bold text-base tracking-wider">🔥 EARLY BIRD CAMPAIGN</h4>
+            <div class="text-xs text-white mb-2 bg-black/20 p-2 rounded">
+              500 parcels for only <span class="text-green-300 font-bold">$5.00</span>! (99% OFF)
             </div>
-            <div class="text-xs text-yellow-300 mb-2">
-              ✅ 90 days +30% views<br>
-              ✅ Free ad design<br>
-              ✅ Premium priority
+            <div class="text-xs text-yellow-300 mb-2 space-y-1">
+              <div class="flex items-center">✅ 90 days +30% views</div>
+              <div class="flex items-center">✅ Free ad design</div>
+              <div class="flex items-center">✅ Premium priority</div>
             </div>
-            <div class="bg-black bg-opacity-30 rounded p-2 text-center">
-              <div class="text-xs text-white">15,000 parcels sold!</div>
-              <div class="text-xs text-red-300 font-bold">Only 28 spots left!</div>
+            <div class="bg-black bg-opacity-40 rounded p-2 text-center border border-white/10">
+              <div class="text-xs text-gray-300">15,000 parcels sold!</div>
+              <div class="text-xs text-red-400 font-bold animate-pulse">Only 28 spots left!</div>
             </div>
-            <button onclick="buyEarlyBird()" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-2 rounded font-bold hover:from-yellow-300 hover:to-orange-400 animate-pulse">
-              🎯 GRAB EARLY BIRD PACKAGE
+            <button class="w-full bg-gradient-to-r from-yellow-300 to-yellow-500 text-black py-3 rounded-lg font-black hover:from-yellow-200 hover:to-yellow-400 transition uppercase text-sm shadow-lg shadow-yellow-500/20 animate-pulse">
+              🎯 GRAB PACKAGE NOW
             </button>
           </div>
         </div>
-        
-        
-    
       </div>
-      <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-        <p class="text-green-400 font-bold">Sold parcels: <span class="text-white" id="soldCount">274,346</span></p>
-        <p class="text-green-400 font-bold">Available parcels: <span class="text-white" id="availableCount">725,654</span></p>
-        <p class="text-green-400 font-bold">Planted Trees: <span class="text-white" id="treeCount">820</span></p>
+
+      <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-3 backdrop-blur-sm">
+        <p class="text-green-400 font-bold text-sm flex justify-between"><span>Sold parcels:</span> <span class="text-white" id="soldCount">274,346</span></p>
+        <p class="text-green-400 font-bold text-sm flex justify-between"><span>Available:</span> <span class="text-white" id="availableCount">725,654</span></p>
+        <p class="text-green-400 font-bold text-sm flex justify-between"><span>Trees Planted:</span> <span class="text-white" id="treeCount">820</span></p>
       </div>
-      <ul class="text-sm space-y-1">
-        <li><span class="text-[#22c55e]">■</span> Pay and own forever</li>
-        <li><span class="text-[#ec4899]">■</span> Bid for own forever</li>
-        <li><span class="text-[#fde047]">■</span> Rent for events</li>
-        <li><span class="text-[#fb923c]">■</span> Rent for plant tree</li>
-        <li><span class="text-[#E0FFFF]">■</span> News ticker ads</li>
-      </ul>
-      <button onclick="toggleDetails()" class="mt-4 bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-green-500 hover:to-blue-600 w-full font-bold shadow-lg">📖 How It Works</button>
-      <div id="detailsSection" class="space-y-2 text-sm hidden max-h-[300px] overflow-y-auto">
-        <!-- Selection Rules -->
-        <div class="bg-[#00bf63]/10 border border-[#00bf63]/30 rounded-lg p-3 mb-4">
-          <h3 class="text-[#00bf63] font-bold text-sm mb-2">📋 Selection Rules <span class="text-gray-300">(normally)</span></h3>
-          <div class="text-[11px] text-yellow-300 mb-2">Due to high demand, only Early Bird sales are currently active.</div>
-          <div class="space-y-1 text-xs">
-            <p class="flex items-center"><span class="text-[#00bf63] mr-2">🟢</span> Green zone: $1.00 per parcel - Buy as many parcels as you want!</p>
-            <p class="flex items-center"><span class="text-[#00bf63] mr-2">🔴</span> Pink zone: Normal selection + bidding</p>
-            <p class="flex items-center"><span class="text-[#00bf63] mr-2">🟡</span> Yellow zone: Auto-selects 100×10 (1000 parcels)</p>
-            <p class="flex items-center"><span class="text-[#00bf63] mr-2">🟠</span> Orange zone: Auto-selects 100×10 (1000 parcels)</p>
-            <p class="flex items-center"><span class="text-[#E0FFFF] mr-2">📰</span> News ticker: $0.01 per character (basic) / $0.02 (colored/bold)</p>
-          </div>
+
+      <div class="bg-[#111] border border-gray-800 rounded-lg p-3">
+        <h3 class="text-gray-400 font-bold text-xs mb-3 uppercase tracking-widest">Selection Rules</h3>
+        <ul class="text-xs space-y-2">
+            <li class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-sm bg-[#22c55e] shadow-[0_0_5px_#22c55e]"></span>
+                <span class="text-gray-300"><strong>Green Zone:</strong> $1.00/parcel. Click to buy.</span>
+            </li>
+            <li class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-sm bg-[#ec4899] shadow-[0_0_5px_#ec4899]"></span>
+                <span class="text-gray-300"><strong>Pink Zone:</strong> Bidding Only (Soon).</span>
+            </li>
+            <li class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-sm bg-[#fde047] shadow-[0_0_5px_#fde047]"></span>
+                <span class="text-gray-300"><strong>Yellow Zone:</strong> Bulk (100x10) Only.</span>
+            </li>
+             <li class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-sm bg-[#fb923c] shadow-[0_0_5px_#fb923c]"></span>
+                <span class="text-gray-300"><strong>Orange Zone:</strong> Rental Only (Soon).</span>
+            </li>
+            <li class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-sm bg-[#E0FFFF] shadow-[0_0_5px_#E0FFFF]"></span>
+                <span class="text-gray-300"><strong>News Ticker:</strong> Char/Pricing.</span>
+            </li>
+        </ul>
+      </div>
+
+      <button onclick="toggleDetails()" class="w-full border border-gray-600 text-gray-400 px-4 py-2 rounded-lg hover:text-white hover:border-white transition text-sm font-bold">📖 How It Works / Instructions</button>
+      
+      <div id="detailsSection" class="space-y-3 text-sm hidden bg-[#111] p-3 rounded border border-gray-800">
+        <ul class="space-y-3 list-none text-gray-300">
+            <li class="flex items-start gap-2">
+                <span class="text-green-500 text-lg">🔒</span>
+                <div>
+                    <strong class="text-white block">Buy & Own Forever</strong>
+                    No monthly fees. Lifetime ownership.
+                </div>
+            </li>
+            <li class="flex items-start gap-2">
+                <span class="text-pink-500 text-lg">💰</span>
+                <div>
+                    <strong class="text-white block">Resell or Auction</strong>
+                    Assets that appreciate in value.
+                </div>
+            </li>
+            <li class="flex items-start gap-2">
+                <span class="text-blue-400 text-lg">🌐</span>
+                <div>
+                    <strong class="text-white block">Partner Network</strong>
+                    Your ad displayed on partner apps/sites.
+                </div>
+            </li>
+            <li class="flex items-start gap-2">
+                <span class="text-yellow-400 text-lg">🤝</span>
+                <div>
+                    <strong class="text-white block">Earn with Us</strong>
+                    Monetize via AdParcel iframe. Contact: <a href="mailto:info@ct-ss.com" class="text-green-400 hover:underline">info@ct-ss.com</a>
+                </div>
+            </li>
+        </ul>
+        <div class="text-center pt-2 border-t border-gray-800">
+            <span class="text-green-400 font-bold italic">Ad<span class="text-white">Parcel</span>: Pay Once, Advertise Forever!</span>
         </div>
-        
-        <ul class="list-disc list-inside marker:text-[#00bf63] space-y-2 text-sm">
-            <li><strong>🚀 Quick Buy:</strong> Click "BUY PARCELS NOW!" to purchase instantly - $1.00 per parcel!</li>
-            <li><strong>🎯 Early Bird:</strong> Get 500 parcels for just $5.00 (99% OFF) - Limited time!</li>
-            <li><strong>📍 How It Works:</strong> Buy parcels → Pay securely → Your ad goes live in 24 hours</li>
-            <li><strong>💡 Why AdParcel?</strong> Own your ad space forever - No monthly fees, permanent exposure!</li>
-            <li><strong>📧 Need Help?</strong> Email: <a href="mailto:info@ct-ss.com" class="text-green-300 hover:text-green-200 underline">info@ct-ss.com</a></li>
-          </ul>
-    </div>
-      <div id="selectedBox" aria-labelledby="selectedBoxHeading" class="bg-[#1e1e1e] rounded-lg p-3 mt-4 hidden">
-        <h2 class="text-lg font-bold mb-2">Selected Area</h2>
-        <div id="selectedSummary" class="text-sm"></div>
       </div>
-      <button onclick="openPremiumModal()" class="mt-3 w-full text-sm bg-[#00bf63] text-black py-1.5 rounded font-semibold hover:bg-[#00bf63]/80 leading-tight">
-        Subscribe for Premium – $0.99/mo<br><span class="text-xs">(coming soon)</span>
+      
+      <button onclick="openPremiumModal()" class="mt-3 w-full text-xs bg-gray-800 text-gray-400 py-2 rounded border border-gray-700 hover:bg-gray-700 hover:text-white transition">
+        Subscribe for Premium – $0.99/mo <span class="opacity-50">(soon)</span>
       </button>
-      <div class="text-center text-xs text-gray-500 pt-6 border-t border-gray-700">
-        AdParcel © 2025 CTSS. All rights reserved. . We are not responsible for the content of external sites. Images featured on the AdParcel homepage are © of their respective owners.
+      
+      <div class="text-center text-[10px] text-gray-600 pt-4 border-t border-gray-800">
+        AdParcel © 2025 CTSS. All rights reserved.
       </div>
     </aside>
 
-    
-    
-
-    <!-- Canvas & Advertisement Images -->
     <section class="w-full lg:w-1/2 flex flex-col">
-        <!-- 1) News Ticker -->
         <div id="newsTicker" class="sticky top-0 z-30 bg-white text-[#E0FFFF] font-semibold overflow-hidden whitespace-nowrap py-2 px-4 w-full max-w-[1000px] mx-auto">
-          <div id="tickerContent" class="inline-block">
-            🧠 72% of visitors hover but don’t click. Break the curse! &nbsp;&nbsp;|&nbsp;&nbsp;
-            🔥 Someone just bid $150 in the pink zone! &nbsp;&nbsp;|&nbsp;&nbsp;
-            🌳 1,200 trees planted thanks to ad buyers! &nbsp;&nbsp;|&nbsp;&nbsp;
-            🎯 AdParcel officially more addictive than coffee. &nbsp;&nbsp;|&nbsp;&nbsp;
-            🚀 ‘Rent-A-Plot’ pilot launched in orange zone! &nbsp;&nbsp;|&nbsp;&nbsp;
-            🤑 One buyer just grabbed 1,000 parcels at once! &nbsp;&nbsp;|&nbsp;&nbsp;
-            🖼️ Mystery ad spotted in the center grid 👀 &nbsp;&nbsp;|&nbsp;&nbsp;
-            🎁 Some parcels hide crypto rewards... &nbsp;&nbsp;|&nbsp;&nbsp;
-            🧩 0.1% of parcels contain easter eggs 🥚 &nbsp;&nbsp;|&nbsp;&nbsp;
-            💬 ‘Chat-Parcel’ beta coming this weekend! &nbsp;&nbsp;|&nbsp;&nbsp;
-            📈 Green zone resale value up 17% this week! &nbsp;&nbsp;|&nbsp;&nbsp;
-            👀 First brand partnership incoming 🔒 &nbsp;&nbsp;|&nbsp;&nbsp;
-            🕵️ Someone bought parcels spelling their name. &nbsp;&nbsp;|&nbsp;&nbsp;
-            🎮 Interactive grid game in development! &nbsp;&nbsp;|&nbsp;&nbsp;
-            💸 Passive income mode unlocks soon 🔑 &nbsp;&nbsp;|&nbsp;&nbsp;
-            🚫 Tried to select Nike ad? Nice try 😏 &nbsp;&nbsp;|&nbsp;&nbsp;
-            🌍 Buyers from 23 countries joined! &nbsp;&nbsp;|&nbsp;&nbsp;
-            📦 New parcel owner: Elon_PixelMaster 🧢 &nbsp;&nbsp;|&nbsp;&nbsp;
-            🎨 Ad art contest winners this Friday! &nbsp;&nbsp;|&nbsp;&nbsp;
-            📊 Top buyers leaderboard launching soon &nbsp;&nbsp;|&nbsp;&nbsp;
-            🤖 AI-generated ads getting wild! &nbsp;&nbsp;|&nbsp;&nbsp;
-            🔒 Premium chat beta for top buyers only &nbsp;&nbsp;|&nbsp;&nbsp;
-            🥇 Own a full row? You’re elite now. &nbsp;&nbsp;|&nbsp;&nbsp;
-            🌈 7,653 colors used in ads so far.
-          </div>
+          <div id="tickerContent" class="inline-block"></div>
         </div>
       
-        <!-- 2) Scrollable grid & advertisement wrapper -->
-        <div class="flex justify-center overflow-auto touch-pan-x touch-pan-y">          <canvas id="gridCanvas"></canvas>
-          
-          <!-- magnifierCanvas removed -->
-
-          <!-- existing -->
-<img id="nikeAd" src="assets/nike.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-<img id="temaAd" src="assets/tema.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-
-<!-- two ads above Nike -->
-<img id="ad1" src="assets/ad1.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-<img id="ad2" src="assets/ad2.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-
-<!-- four ads below Nike -->
-<img id="ad3" src="assets/ad3.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-<img id="ad4" src="assets/ad4.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-<img id="ad5" src="assets/ad5.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-<img id="ad6" src="assets/ad6.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
-
-<!-- one 250×500 block in green zone -->
-<img id="ad7" src="assets/ad7.png" style="display:none" loading="eager" decoding="async" fetchpriority="low" />
+        <div class="flex flex-col items-center">
+            <div class="relative overflow-auto touch-pan-x touch-pan-y border-4 border-[#222] shadow-2xl bg-[#111]">
+              <canvas id="gridCanvas"></canvas>
+              <img id="nikeAd" src="assets/nike.png" style="display:none" />
+              <img id="temaAd" src="assets/tema.png" style="display:none" />
+              <img id="ad1" src="assets/ad1.png" style="display:none" />
+              <img id="ad2" src="assets/ad2.png" style="display:none" />
+              <img id="ad3" src="assets/ad3.png" style="display:none" />
+              <img id="ad4" src="assets/ad4.png" style="display:none" />
+              <img id="ad5" src="assets/ad5.png" style="display:none" />
+              <img id="ad6" src="assets/ad6.png" style="display:none" />
+              <img id="ad7" src="assets/ad7.png" style="display:none" />
+            </div>
         </div>
+    </section>
 
-        
-      </section>
-
-    <!-- Right Sidebar - Chat-Parcel -->
-    <aside class="w-full lg:w-1/4 space-y-4 overflow-y-auto max-h-screen">
-      <div id="chatParcel" class="bg-[#1e1e1e] text-white rounded-lg p-4 h-full flex flex-col">
-        <h2 class="text-lg font-bold mb-3 flex items-center">
+    <aside class="w-full lg:w-1/4 space-y-4 lg:overflow-y-auto lg:max-h-screen overflow-x-hidden">
+      <div id="chatParcel" class="bg-[#1e1e1e] text-white rounded-lg p-4 h-full flex flex-col border border-gray-800">
+        <h2 class="text-lg font-bold mb-3 flex items-center text-gray-300">
           💬 Chat-Parcel  
-          <span class="text-[#00bf63] text-sm ml-2">(Live)</span>
+          <span class="text-green-500 text-xs ml-2 font-mono animate-pulse">● LIVE</span>
         </h2>
-        <div id="chatMessages" class="flex-1 space-y-0 text-sm overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-          <!-- Messages will be added by JavaScript -->
-        </div>
-        <div class="flex space-x-2 mt-3 pt-3 border-t border-gray-700">
-          <input type="text" placeholder="Leave a comment..." 
-                 class="flex-1 px-3 py-2 border border-gray-600 rounded-lg text-white bg-gray-800 placeholder-gray-400 focus:border-green-400 focus:outline-none"
-                 aria-label="Chat message input" />
-          <button class="bg-gray-600 text-gray-300 px-4 py-2 rounded-lg text-sm cursor-not-allowed opacity-50 hover:bg-gray-500">Send</button>
+        <div id="chatMessages" class="flex-1 space-y-0 text-sm overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 h-[600px]">
+          </div>
+        <div class="mt-3 pt-3 border-t border-gray-700">
+            <div class="flex items-center w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 cursor-not-allowed opacity-50">
+              <span class="text-gray-500 text-sm px-1">Chat-Parcel (Premium) coming soon...</span>
+            </div>
         </div>
       </div>
     </aside>
   </main>
 
-  <!-- Parcel Details Modal -->
-  <div id="parcelDetailsModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50" role="dialog" aria-modal="true" aria-labelledby="parcelDetailsHeading">
+  <div id="parcelDetailsModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50 backdrop-blur-sm">
     <div class="bg-white text-black rounded-lg p-6 w-full max-w-md space-y-4 relative">
       <button onclick="closeParcelModal()" class="absolute top-2 right-3 text-xl font-bold text-red-600">×</button>
       <h2 id="parcelDetailsHeading" class="text-lg font-bold text-center text-green-700">Parcel Details</h2>
-      <img id="parcelImage" src="" alt="Ad Image" class="w-full h-48 object-contain rounded border" />
+      <img id="parcelImage" src="" alt="Ad Image" class="w-full h-48 object-contain rounded border bg-gray-100" />
       <div id="parcelMeta" class="text-sm text-gray-700 space-y-1"></div>
       <button class="w-full bg-green-500 text-black py-2 rounded font-bold hover:bg-green-400 disabled:opacity-50" disabled>Coming soon: Bid or Buy</button>
     </div>
   </div>
 
-  <!-- Bidding Animation Modal -->
+  <div id="earlyBirdModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50 backdrop-blur-sm">
+    <div class="bg-gradient-to-br from-red-600 to-orange-600 text-white rounded-lg p-6 w-full max-w-md space-y-4 relative shadow-2xl border border-orange-400">
+      <button onclick="closeEarlyBirdModal()" class="absolute top-2 right-3 text-xl font-bold text-white hover:text-gray-300">×</button>
+      <div class="text-center">
+        <h2 class="text-3xl font-black text-yellow-300 mb-1 uppercase italic">🔥 THE GRID IS ON FIRE!</h2>
+        <p class="text-sm text-white/90">This chance won't come back.</p>
+      </div>
+      
+      <div class="bg-black/40 rounded-xl p-4 space-y-3 backdrop-blur-md border border-white/10">
+        <div class="text-center">
+          <div class="text-xl font-bold text-white">500 PARCELS</div>
+          <div class="text-5xl font-black text-green-400 my-2 tracking-tighter">$5.00</div>
+          <div class="text-xs text-gray-300 bg-white/10 inline-block px-2 py-1 rounded">REGULAR: $500 (99% OFF)</div>
+        </div>
+        
+        <div class="space-y-2 pt-2 border-t border-white/10">
+            <div class="flex items-center text-sm"><span class="text-yellow-400 mr-2">★</span> +30% more views for 90 days</div>
+            <div class="flex items-center text-sm"><span class="text-yellow-400 mr-2">★</span> Free professional ad design</div>
+            <div class="flex items-center text-sm"><span class="text-yellow-400 mr-2">★</span> Priority support</div>
+        </div>
+      </div>
+      
+      <button onclick="proceedToPurchase()" class="w-full bg-gradient-to-r from-yellow-300 to-yellow-500 text-black py-4 rounded-xl font-black text-xl hover:from-yellow-200 hover:to-yellow-400 hover:scale-105 transition transform shadow-xl hover:shadow-2xl shadow-yellow-500/30 animate-pulse">
+        🚀 CLAIM NOW ($5)
+      </button>
+      <p class="text-[10px] text-center opacity-70">30-day money-back guarantee • Instant delivery</p>
+    </div>
+  </div>
+
   <div id="biddingModal" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center hidden z-50 p-4" role="dialog" aria-modal="true" aria-labelledby="biddingHeading">
     <div class="bg-gradient-to-br from-red-600 via-purple-600 to-pink-600 text-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] space-y-4 relative text-center overflow-hidden overflow-y-auto">
       <button onclick="closeBiddingModal()" class="absolute top-2 right-3 text-xl font-bold text-white hover:text-gray-300 z-10">×</button>
-      
-      <!-- Auctioneer Animation -->
       <div class="absolute top-4 left-4 text-6xl animate-bounce" id="auctioneer">🔨</div>
       <div class="absolute top-4 right-4 text-6xl animate-bounce" style="animation-delay: 0.3s;" id="auctioneer2">📢</div>
-      
-      <!-- Animated Background Elements -->
       <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-10 left-10 text-4xl animate-pulse opacity-20">💰</div>
         <div class="absolute top-20 right-20 text-3xl animate-pulse opacity-20" style="animation-delay: 0.5s;">💎</div>
         <div class="absolute bottom-20 left-20 text-4xl animate-pulse opacity-20" style="animation-delay: 1s;">🏆</div>
         <div class="absolute bottom-10 right-10 text-3xl animate-pulse opacity-20" style="animation-delay: 1.5s;">⭐</div>
       </div>
-      
-      <!-- Main Content -->
       <div class="relative z-10 space-y-3">
-        <!-- Live Auction Header -->
         <div class="space-y-1">
           <div id="biddingHeading" class="text-3xl font-bold animate-pulse text-yellow-300">🔥 LIVE AUCTION 🔥</div>
           <div class="text-lg animate-bounce text-red-300">⚡ REAL-TIME BIDDING ⚡</div>
         </div>
-        
-        <!-- Auctioneer Messages -->
         <div class="bg-black bg-opacity-40 rounded-lg p-3 border-2 border-yellow-400">
-          <div id="auctioneerMessage" class="text-base font-bold text-yellow-300 animate-pulse">
-            "Going once... Going twice... SOLD!"
-          </div>
-          <div class="text-xs text-gray-300 mt-1">
-            Auctioneer: <span id="auctioneerName" class="text-yellow-300">Michael Carter</span>
-          </div>
+          <div id="auctioneerMessage" class="text-base font-bold text-yellow-300 animate-pulse">"Going once... Going twice... SOLD!"</div>
+          <div class="text-xs text-gray-300 mt-1">Auctioneer: <span id="auctioneerName" class="text-yellow-300">Michael Carter</span></div>
         </div>
-        
-        <!-- Main Grid Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- Left Column: Bidding Info -->
           <div class="space-y-3">
-            <!-- Bidding Arena -->
             <div class="grid grid-cols-2 gap-3">
-              <!-- Current Bid -->
               <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-lg p-3 border-2 border-green-400">
                 <div class="text-sm font-semibold mb-1">🏆 HIGHEST BID</div>
                 <div id="biddingCounter" class="text-2xl font-bold text-yellow-300 animate-pulse">$127.50</div>
-                <div class="text-xs mt-1">Bidder: <span id="currentBidder" class="text-green-300 font-bold">PixelMaster99</span></div>
+                <div class="text-xs mt-1">Bidder: <span id="currentBidder" class="text-green-300 font-bold">ParcelMaster99</span></div>
               </div>
-              
-              <!-- Next Bid -->
               <div class="bg-gradient-to-r from-red-600 to-orange-600 rounded-lg p-3 border-2 border-red-400">
                 <div class="text-sm font-semibold mb-1">⚡ NEXT BID</div>
                 <div id="nextBid" class="text-2xl font-bold text-white animate-bounce">$127.75</div>
                 <div class="text-xs mt-1">Increment: $0.25</div>
               </div>
             </div>
-            
-            <!-- Timer and Status -->
             <div class="grid grid-cols-3 gap-2 bg-black bg-opacity-40 rounded-lg p-3">
-              <div class="text-center">
-                <div class="text-sm font-bold text-red-300">⏰ TIME</div>
-                <div id="auctionTimer" class="text-lg font-bold text-yellow-300 animate-pulse">2h 34m 12s</div>
-              </div>
-              <div class="text-center">
-                <div class="text-sm font-bold text-green-300">📊 BIDS</div>
-                <div id="totalBids" class="text-lg font-bold text-white animate-bounce">47</div>
-              </div>
-              <div class="text-center">
-                <div class="text-sm font-bold text-blue-300">👥 USERS</div>
-                <div id="participants" class="text-lg font-bold text-white animate-bounce">23</div>
-              </div>
+              <div class="text-center"><div class="text-sm font-bold text-red-300">⏰ TIME</div><div id="auctionTimer" class="text-lg font-bold text-yellow-300 animate-pulse">2h 34m 12s</div></div>
+              <div class="text-center"><div class="text-sm font-bold text-green-300">📊 BIDS</div><div id="totalBids" class="text-lg font-bold text-white animate-bounce">47</div></div>
+              <div class="text-center"><div class="text-sm font-bold text-blue-300">👥 USERS</div><div id="participants" class="text-lg font-bold text-white animate-bounce">23</div></div>
             </div>
-            
-            <!-- Active Bidders -->
             <div class="bg-black bg-opacity-30 rounded-lg p-3">
               <div class="text-sm font-bold mb-2 text-yellow-300">🎯 ACTIVE BIDDERS</div>
               <div class="grid grid-cols-3 gap-1 text-xs">
-                <div class="bg-red-500 bg-opacity-30 rounded p-1 animate-pulse">
-                  <div class="font-bold">BidBot3000</div>
-                  <div class="text-xs">$127.25</div>
-                </div>
-                <div class="bg-blue-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.2s;">
-                  <div class="font-bold">AdKing2025</div>
-                  <div class="text-xs">$127.00</div>
-                </div>
-                <div class="bg-green-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.4s;">
-                  <div class="font-bold">GridGuru</div>
-                  <div class="text-xs">$126.75</div>
-                </div>
+                <div class="bg-red-500 bg-opacity-30 rounded p-1 animate-pulse"><div class="font-bold">BidBot3000</div><div class="text-xs">$127.25</div></div>
+                <div class="bg-blue-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.2s;"><div class="font-bold">AdKing2025</div><div class="text-xs">$127.00</div></div>
+                <div class="bg-green-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.4s;"><div class="font-bold">GridGuru</div><div class="text-xs">$126.75</div></div>
               </div>
             </div>
           </div>
-          
-          <!-- Right Column: Live Chat -->
           <div class="space-y-3">
-            <!-- Live Chat -->
             <div class="bg-black bg-opacity-40 rounded-lg p-3 border-2 border-purple-400 h-64 flex flex-col">
-              <div class="text-sm font-bold mb-2 text-purple-300 flex items-center">
-                💬 LIVE CHAT 
-                <span class="ml-2 text-xs bg-green-500 px-2 py-1 rounded animate-pulse">LIVE</span>
-              </div>
-              <div id="liveChat" class="flex-1 overflow-y-auto text-xs space-y-1 text-left">
-                <!-- Chat messages will be added here by JavaScript -->
-              </div>
+              <div class="text-sm font-bold mb-2 text-purple-300 flex items-center">💬 LIVE CHAT <span class="ml-2 text-xs bg-green-500 px-2 py-1 rounded animate-pulse">LIVE</span></div>
+              <div id="liveChat" class="flex-1 overflow-y-auto text-xs space-y-1 text-left"></div>
             </div>
-            
-            <!-- Live Updates -->
             <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg p-3 border-2 border-purple-400">
               <div class="text-sm font-bold mb-2 text-white">📢 LIVE UPDATES</div>
               <div id="liveUpdates" class="text-xs space-y-1">
@@ -387,168 +400,67 @@
             </div>
           </div>
         </div>
-        
-        <!-- Coming Soon -->
         <div class="bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg p-3 border-2 border-yellow-400">
           <div class="text-lg font-bold text-black">🚀 COMING SOON</div>
           <div class="text-sm text-black font-semibold">Full bidding system launching soon!</div>
-          <div class="text-xs text-black font-medium mt-1">(currently available only to Premium Beta users)</div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Early Bird Campaign Modal -->
-  <div id="earlyBirdModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50" role="dialog" aria-modal="true" aria-labelledby="earlyBirdHeading">
-    <div class="bg-gradient-to-br from-red-600 to-orange-600 text-white rounded-lg p-6 w-full max-w-md space-y-4 relative">
-      <button onclick="closeEarlyBirdModal()" class="absolute top-2 right-3 text-xl font-bold text-white hover:text-gray-300">×</button>
-      
-      <div class="text-center">
-        <h2 id="earlyBirdHeading" class="text-2xl font-bold text-yellow-300 mb-2">🎯 SUPER EARLY BIRD!</h2>
-        <div class="text-lg text-white mb-4">You're getting an amazing deal!</div>
-      </div>
-      
-      <div class="bg-black bg-opacity-30 rounded-lg p-4 space-y-3">
-        <div class="text-center">
-          <div class="text-3xl font-bold text-yellow-300">500 Parcels</div>
-          <div class="text-lg text-white">for only</div>
-          <div class="text-4xl font-bold text-green-400">$5.00</div>
-          <div class="text-sm text-gray-300">(Normally $500 - 99% OFF!)</div>
-        </div>
-        
-        <div class="space-y-2">
-          <h3 class="font-bold text-yellow-300 text-center">🎁 BONUS BENEFITS:</h3>
-          <div class="text-sm space-y-1">
-            <div class="flex items-center"><span class="text-green-400 mr-2">✅</span> 90 days +30% more views</div>
-            <div class="flex items-center"><span class="text-green-400 mr-2">✅</span> Free professional ad design</div>
-            <div class="flex items-center"><span class="text-green-400 mr-2">✅</span> Premium priority support</div>
-            <div class="flex items-center"><span class="text-green-400 mr-2">✅</span> Early access to new features</div>
-          </div>
-        </div>
-        
-        <div class="bg-red-600 bg-opacity-50 rounded p-2 text-center">
-          <div class="text-sm text-white">⏰ Limited Time Offer!</div>
-          <div class="text-xs text-yellow-300">Only 28 spots remaining at this price!</div>
-        </div>
-      </div>
-      
-      <div class="space-y-2">
-        <button onclick="proceedToPurchase()" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-3 rounded-lg font-bold text-lg hover:from-yellow-300 hover:to-orange-400 animate-pulse">
-          🚀 BUY NOW - $5.00
-        </button>
-        <div class="text-xs text-center text-gray-300">
-          Secure payment • Instant activation • 30-day money back guarantee
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Premium Networking Modal -->
+  
   <div id="premiumModal" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center hidden z-50 p-4" role="dialog" aria-modal="true" aria-labelledby="premiumHeading">
     <div class="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 text-white rounded-lg p-6 w-full max-w-5xl max-h-[90vh] space-y-4 relative text-center overflow-hidden overflow-y-auto">
       <button onclick="closePremiumModal()" class="absolute top-2 right-3 text-xl font-bold text-white hover:text-gray-300 z-10">×</button>
-      
-      <!-- Networking Animation -->
       <div class="absolute top-4 left-4 text-6xl animate-bounce" id="networkIcon">🌐</div>
       <div class="absolute top-4 right-4 text-6xl animate-bounce" style="animation-delay: 0.3s;" id="collaborationIcon">🤝</div>
-      
-      <!-- Animated Background Elements -->
       <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-10 left-10 text-4xl animate-pulse opacity-20">💼</div>
         <div class="absolute top-20 right-20 text-3xl animate-pulse opacity-20" style="animation-delay: 0.5s;">📈</div>
         <div class="absolute bottom-20 left-20 text-4xl animate-pulse opacity-20" style="animation-delay: 1s;">🎯</div>
         <div class="absolute bottom-10 right-10 text-3xl animate-pulse opacity-20" style="animation-delay: 1.5s;">⚡</div>
       </div>
-      
-      <!-- Main Content -->
       <div class="relative z-10 space-y-3">
-        <!-- Premium Header -->
         <div class="space-y-1">
           <div id="premiumHeading" class="text-3xl font-bold animate-pulse text-yellow-300">🌟 PREMIUM NETWORKING 🌟</div>
           <div class="text-lg animate-bounce text-blue-300">🚀 INDUSTRY COLLABORATION PLATFORM 🚀</div>
         </div>
-        
-        <!-- Networking Messages -->
         <div class="bg-black bg-opacity-40 rounded-lg p-3 border-2 border-blue-400">
-          <div id="networkingMessage" class="text-base font-bold text-blue-300 animate-pulse">
-            "Connect with industry leaders and unlock exclusive opportunities!"
-          </div>
-          <div class="text-xs text-gray-300 mt-1">
-            Platform: <span id="platformName" class="text-blue-300">AdParcel Premium Network</span>
-          </div>
+          <div id="networkingMessage" class="text-base font-bold text-blue-300 animate-pulse">"Connect with industry leaders and unlock exclusive opportunities!"</div>
+          <div class="text-xs text-gray-300 mt-1">Platform: <span id="platformName" class="text-blue-300">AdParcel Premium Network</span></div>
         </div>
-        
-        <!-- Main Grid Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- Left Column: Networking Features -->
           <div class="space-y-3">
-            <!-- Active Connections -->
             <div class="grid grid-cols-2 gap-3">
-              <!-- Live Connections -->
               <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-lg p-3 border-2 border-green-400">
                 <div class="text-sm font-semibold mb-1">🔗 LIVE CONNECTIONS</div>
                 <div id="connectionCounter" class="text-2xl font-bold text-yellow-300 animate-pulse">2,847</div>
                 <div class="text-xs mt-1">Active: <span id="activeConnections" class="text-green-300 font-bold">1,234</span></div>
               </div>
-              
-              <!-- Collaboration Projects -->
               <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg p-3 border-2 border-purple-400">
                 <div class="text-sm font-semibold mb-1">🤝 COLLABORATIONS</div>
                 <div id="collaborationCounter" class="text-2xl font-bold text-white animate-bounce">156</div>
                 <div class="text-xs mt-1">This Month: <span class="text-purple-300 font-bold">23</span></div>
               </div>
             </div>
-            
-            <!-- Network Stats -->
             <div class="grid grid-cols-3 gap-2 bg-black bg-opacity-40 rounded-lg p-3">
-              <div class="text-center">
-                <div class="text-sm font-bold text-green-300">💼 COMPANIES</div>
-                <div id="companyCount" class="text-lg font-bold text-white animate-pulse">847</div>
-              </div>
-              <div class="text-center">
-                <div class="text-sm font-bold text-blue-300">👥 PROFESSIONALS</div>
-                <div id="professionalCount" class="text-lg font-bold text-white animate-bounce">3,421</div>
-              </div>
-              <div class="text-center">
-                <div class="text-sm font-bold text-purple-300">🎯 OPPORTUNITIES</div>
-                <div id="opportunityCount" class="text-lg font-bold text-white animate-pulse">89</div>
-              </div>
+              <div class="text-center"><div class="text-sm font-bold text-green-300">💼 COMPANIES</div><div id="companyCount" class="text-lg font-bold text-white animate-pulse">847</div></div>
+              <div class="text-center"><div class="text-sm font-bold text-blue-300">👥 PROFESSIONALS</div><div id="professionalCount" class="text-lg font-bold text-white animate-bounce">3,421</div></div>
+              <div class="text-center"><div class="text-sm font-bold text-purple-300">🎯 OPPORTUNITIES</div><div id="opportunityCount" class="text-lg font-bold text-white animate-pulse">89</div></div>
             </div>
-            
-            <!-- Active Networkers -->
             <div class="bg-black bg-opacity-30 rounded-lg p-3">
               <div class="text-sm font-bold mb-2 text-blue-300">🌟 ACTIVE NETWORKERS</div>
               <div class="grid grid-cols-3 gap-1 text-xs">
-                <div class="bg-green-500 bg-opacity-30 rounded p-1 animate-pulse">
-                  <div class="font-bold">Sarah_Chen</div>
-                  <div class="text-xs">Marketing Director</div>
-                </div>
-                <div class="bg-blue-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.2s;">
-                  <div class="font-bold">Mike_Johnson</div>
-                  <div class="text-xs">CEO, TechCorp</div>
-                </div>
-                <div class="bg-purple-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.4s;">
-                  <div class="font-bold">Emma_Wilson</div>
-                  <div class="text-xs">Creative Director</div>
-                </div>
+                <div class="bg-green-500 bg-opacity-30 rounded p-1 animate-pulse"><div class="font-bold">Sarah_Chen</div><div class="text-xs">Marketing Director</div></div>
+                <div class="bg-blue-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.2s;"><div class="font-bold">Mike_Johnson</div><div class="text-xs">CEO, TechCorp</div></div>
+                <div class="bg-purple-500 bg-opacity-30 rounded p-1 animate-pulse" style="animation-delay: 0.4s;"><div class="font-bold">Emma_Wilson</div><div class="text-xs">Creative Director</div></div>
               </div>
             </div>
           </div>
-          
-          <!-- Right Column: Live Networking Chat -->
           <div class="space-y-3">
-            <!-- Live Networking Chat -->
             <div class="bg-black bg-opacity-40 rounded-lg p-3 border-2 border-blue-400 h-64 flex flex-col">
-              <div class="text-sm font-bold mb-2 text-blue-300 flex items-center">
-                💬 LIVE NETWORKING CHAT
-                <span class="ml-2 text-xs bg-green-500 px-2 py-1 rounded animate-pulse">LIVE</span>
-              </div>
-              <div id="networkingChat" class="flex-1 overflow-y-auto text-xs space-y-1 text-left">
-                <!-- Chat messages will be added here by JavaScript -->
-              </div>
+              <div class="text-sm font-bold mb-2 text-blue-300 flex items-center">💬 LIVE NETWORKING CHAT<span class="ml-2 text-xs bg-green-500 px-2 py-1 rounded animate-pulse">LIVE</span></div>
+              <div id="networkingChat" class="flex-1 overflow-y-auto text-xs space-y-1 text-left"></div>
             </div>
-            
-            <!-- Live Opportunities -->
             <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-lg p-3 border-2 border-green-400">
               <div class="text-sm font-bold mb-2 text-white">🎯 LIVE OPPORTUNITIES</div>
               <div id="liveOpportunities" class="text-xs space-y-1">
@@ -559,8 +471,6 @@
             </div>
           </div>
         </div>
-        
-        <!-- Premium Features -->
         <div class="bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg p-3 border-2 border-yellow-400">
           <div class="text-lg font-bold text-black">🚀 PREMIUM FEATURES</div>
           <div class="text-sm text-black font-semibold">Industry messaging • Collaboration tools • Exclusive events • Priority support • Priority parcel resale</div>
@@ -569,7 +479,6 @@
     </div>
   </div>
 
-  <!-- Analytics (GA4 minimal) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-R06N6R3EYW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
